@@ -1,0 +1,11 @@
+Get one inspection per restaurant:
+https://claude.ai/share/9cf87d85-d82c-4d7f-b223-0055f2c448f7
+
+Figure out buttons:
+https://claude.ai/chat/73140ad7-0aa1-4195-8dfe-f7314d019bba
+
+Sort columns:
+https://claude.ai/chat/efa687f6-d59a-462e-8c8e-3bc0bc7444a3
+
+Change bar fill color:
+https://claude.ai/chat/d6ac1cb0-fc07-4f9d-80d9-9b20c58a33e9
