@@ -3,9 +3,7 @@ from dash import dcc, html, Input, Output, State
 import plotly.express as px
 import pandas as pd
 
-# -----------------------------
 # Load & Clean Data
-# -----------------------------
 df = pd.read_csv("DOHMH_New_York_City_Restaurant_Inspection_Results_20260420.csv")
 
 df = df.dropna(subset=["CUISINE DESCRIPTION"])
@@ -27,9 +25,7 @@ severity_colors = {
 
 df = df[df["severity"] != "Not Applicable"]
 
-# -----------------------------
 # Cuisine -> Region Mapping
-# -----------------------------
 cuisine_categories = {
     "North American": [
         "American", "Tex-Mex", "New American", "Southwestern",
@@ -81,9 +77,7 @@ cuisine_to_region = {
 
 df["REGION"] = df["CUISINE DESCRIPTION"].map(cuisine_to_region)
 
-# -----------------------------
 # Group Data
-# -----------------------------
 grouped_df = (
     df.groupby(["REGION", "severity"])
       .size()
@@ -97,9 +91,7 @@ grouped_df["severity"] = pd.Categorical(
     ordered=True
 )
 
-# -----------------------------
 # Dash App
-# -----------------------------
 app = dash.Dash(__name__)
 
 regions = sorted(grouped_df["REGION"].unique())
@@ -134,9 +126,7 @@ app.layout = html.Div([
     dcc.Graph(id="violation-chart"),
 ])
 
-# -----------------------------
 # Callback
-# -----------------------------
 @app.callback(
     Output("violation-chart", "figure"),
     Output("mode", "data"),
@@ -166,9 +156,7 @@ def update_chart(selected_regions, sort_order, clickData, split_clicks, back_cli
     )
     filtered = filtered.sort_values("REGION")
 
-    # -----------------------------
     # BACK BUTTON → RETURN TO STACKED
-    # -----------------------------
     if back_clicks > 0:
         fig = px.bar(
             filtered,
@@ -227,9 +215,6 @@ def update_chart(selected_regions, sort_order, clickData, split_clicks, back_cli
         return fig, {"mode": "split", "region": region}, {"display": "none"}, {"display": "inline-block"}
 
 
-    # -----------------------------
-    # CLICK REGION → DRILLDOWN
-    # -----------------------------
     if clickData is not None and mode["mode"] == "stacked":
         clicked_region = clickData["points"][0]["x"]
 
@@ -252,9 +237,8 @@ def update_chart(selected_regions, sort_order, clickData, split_clicks, back_cli
 
         return fig, {"mode": "drilldown", "region": clicked_region}, {"display": "inline-block"}, {"display": "inline-block"}
 
-    # -----------------------------
     # DEFAULT STACKED VIEW
-    # -----------------------------
+    
     fig = px.bar(
         filtered,
         x="REGION",
