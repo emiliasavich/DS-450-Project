@@ -3,7 +3,6 @@ from dash import dcc, html, Input, Output, State
 import plotly.express as px
 import pandas as pd
 
-# Load & Clean Data
 df = pd.read_csv("DOHMH_New_York_City_Restaurant_Inspection_Results_20260420.csv")
 
 df = df.dropna(subset=["CUISINE DESCRIPTION"])
@@ -25,7 +24,6 @@ severity_colors = {
 
 df = df[df["severity"] != "Not Applicable"]
 
-# Cuisine -> Region Mapping
 cuisine_categories = {
     "North American": [
         "American", "Tex-Mex", "New American", "Southwestern",
@@ -77,7 +75,7 @@ cuisine_to_region = {
 
 df["REGION"] = df["CUISINE DESCRIPTION"].map(cuisine_to_region)
 
-# Group Data
+
 grouped_df = (
     df.groupby(["REGION", "severity"])
       .size()
@@ -91,21 +89,18 @@ grouped_df["severity"] = pd.Categorical(
     ordered=True
 )
 
-# Dash App
 app = dash.Dash(__name__)
 
 regions = sorted(grouped_df["REGION"].unique())
 
 app.layout = html.Div([
     html.H2("NYC Restaurant Violations by Cuisine Group & Severity"),
-
     dcc.Dropdown(
         id="cuisine-select",
         options=[{"label": r, "value": r} for r in regions],
         value=regions,
         multi=True
     ),
-
     dcc.RadioItems(
         id="sort-order",
         options=[
@@ -115,18 +110,14 @@ app.layout = html.Div([
         value="desc",
         inline=True
     ),
-
     html.Div([
     html.Button("Show Individual Cuisines", id="split-button", n_clicks=0, style={"display": "none"}),
     html.Button("Back", id="back-button", n_clicks=0, style={"display": "none"})
     ], id="button-container"),
-
-
     dcc.Store(id="mode", data={"mode": "stacked", "region": None}),
     dcc.Graph(id="violation-chart"),
 ])
 
-# Callback
 @app.callback(
     Output("violation-chart", "figure"),
     Output("mode", "data"),
@@ -156,7 +147,7 @@ def update_chart(selected_regions, sort_order, clickData, split_clicks, back_cli
     )
     filtered = filtered.sort_values("REGION")
 
-    # BACK BUTTON → RETURN TO STACKED
+
     if back_clicks > 0:
         fig = px.bar(
             filtered,
@@ -169,10 +160,12 @@ def update_chart(selected_regions, sort_order, clickData, split_clicks, back_cli
             height=650
         )
         fig.update_traces(texttemplate='%{y}', textposition='inside')
-
+        fig.update_layout(
+            xaxis_title="Region",
+            yaxis_title="Number of Violations"
+        )
         return fig, {"mode": "stacked", "region": None}, {"display": "none"}, {"display": "none"}
 
-    # SPLIT BUTTON → SHOW CUISINES
     if mode["mode"] == "drilldown" and split_clicks > 0:
         region = mode["region"]
 
@@ -184,7 +177,6 @@ def update_chart(selected_regions, sort_order, clickData, split_clicks, back_cli
             .reset_index(name="count")
         )
 
-        # Sort cuisines by total violations (descending)
         cuisine_totals = (
             cuisine_grouped.groupby("CUISINE DESCRIPTION")["count"]
             .sum()
@@ -234,11 +226,12 @@ def update_chart(selected_regions, sort_order, clickData, split_clicks, back_cli
             height=650
         )
         fig.update_traces(texttemplate='%{y}', textposition='inside')
-
+        fig.update_layout(
+            xaxis_title="Severity",
+            yaxis_title="Number of Violations"
+        )
         return fig, {"mode": "drilldown", "region": clicked_region}, {"display": "inline-block"}, {"display": "inline-block"}
 
-    # DEFAULT STACKED VIEW
-    
     fig = px.bar(
         filtered,
         x="REGION",
@@ -250,7 +243,10 @@ def update_chart(selected_regions, sort_order, clickData, split_clicks, back_cli
         height=650
     )
     fig.update_traces(texttemplate='%{y}', textposition='inside')
-
+    fig.update_layout(
+            xaxis_title="Region",
+            yaxis_title="Number of Violations"
+        )
     return fig, {"mode": "stacked", "region": None}, {"display": "none"}, {"display": "none"}
 
 
