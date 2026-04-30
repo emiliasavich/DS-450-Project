@@ -33,6 +33,7 @@ def get_fig_bar(curr_grade):
     new_fig_bar = px.bar(
         x=filtered_df["BORO"],
         y=filtered_df["Percent By Grade"].round(2),
+        text=filtered_df["Percent By Grade"].round(2),
         template="simple_white",
         title=f"Percent of Restaurants with <span style='color:{colors[curr_grade]}'>Grade {curr_grade}</span> by Borough",
         labels={"x": "Boro", "y": f"Percent with Grade {curr_grade}"}, 
