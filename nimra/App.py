@@ -1,5 +1,5 @@
 import dash
-from dash import dcc, html, Input, Output
+from dash import dcc, html, Input, Output, State
 import plotly.express as px
 import pandas as pd
 
@@ -64,12 +64,41 @@ app.layout = html.Div([
 
 @app.callback(
     Output("violation-chart", "figure"),
-    Input("sort-order", "value")
+    Output("violation-chart", "clickData"),
+    Input("sort-order", "value"),
+    Input("violation-chart", "clickData")
 )
-def update_chart(sort_order):
+def update_chart(sort_order, clickData):
+
     totals_sorted = cuisine_totals.sort_values(
         ascending=(sort_order == "asc")
     )
+
+    clicked_cuisine = None
+    if clickData and "points" in clickData:
+        clicked_cuisine = clickData["points"][0]["x"]
+
+    if clicked_cuisine in top10_cuisines:
+        temp = grouped_df[grouped_df["CUISINE DESCRIPTION"] == clicked_cuisine]
+
+        fig = px.bar(
+            temp,
+            x="severity",
+            y="count",
+            color="severity",
+            color_discrete_map=severity_colors,
+            barmode="group",
+            title=f"{clicked_cuisine}: Critical vs Non‑Critical",
+            height=650
+        )
+
+        fig.update_traces(texttemplate='%{y}', textposition='inside')
+        fig.update_layout(
+            xaxis_title="Severity",
+            yaxis_title="Number of Violations",
+        )
+        return fig, clickData
+
     temp = grouped_df.copy()
     temp["CUISINE DESCRIPTION"] = pd.Categorical(
         temp["CUISINE DESCRIPTION"],
@@ -77,6 +106,7 @@ def update_chart(sort_order):
         ordered=True
     )
     temp = temp.sort_values("CUISINE DESCRIPTION")
+
     fig = px.bar(
         temp,
         x="CUISINE DESCRIPTION",
@@ -92,7 +122,7 @@ def update_chart(sort_order):
         xaxis_title="Cuisine",
         yaxis_title="Number of Violations",
     )
-    return fig
+    return fig, None
 
 if __name__ == "__main__":
     app.run(debug=True)
