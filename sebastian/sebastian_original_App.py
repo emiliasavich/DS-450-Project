@@ -5,7 +5,7 @@ import pandas as pd
 
 # Most of this I just ripped from my ipynb, explanation for everything is there
 # Read the dataframe
-df = pd.read_csv("DOHMH_New_York_City_Restaurant_Inspection_Results_20260501.csv")
+df = pd.read_csv("DOHMH_New_York_City_Restaurant_Inspection_Results_20260430.csv")
 
 # Filter out columns I want. Don't really need 'CAMIS' though but just to be sure
 df_filtered = df[['CAMIS', 'INSPECTION DATE', 'ACTION']].copy() # Copy because it complains if you don't

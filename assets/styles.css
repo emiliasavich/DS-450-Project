@@ -1,0 +1,32 @@
+#dashboard-title {
+    text-align: center;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#storyboard-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#storyboard-buttons > * {
+    padding: 20px 10px;
+    background: #dddddd;
+    border: 1px solid #bbbbbb;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+#storyboard-buttons > *:hover {
+    background: #cccccc;
+}
+
+#storyboard-buttons > *.active {
+    background: #bbbbbb;
+}

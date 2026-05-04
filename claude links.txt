@@ -1,0 +1,29 @@
+Get one inspection per restaurant:
+https://claude.ai/share/9cf87d85-d82c-4d7f-b223-0055f2c448f7
+
+Figure out buttons:
+https://claude.ai/chat/73140ad7-0aa1-4195-8dfe-f7314d019bba
+
+Sort columns:
+https://claude.ai/chat/efa687f6-d59a-462e-8c8e-3bc0bc7444a3
+
+Change bar fill color:
+https://claude.ai/chat/d6ac1cb0-fc07-4f9d-80d9-9b20c58a33e9
+
+Understand how to export visualizations:
+https://claude.ai/share/42552fed-8e27-49ed-8187-d27e6a75cb23
+
+Understanding why dashboard wasn't showing a visualization:
+https://claude.ai/share/05cdfae2-56df-4ef7-9946-4f5b2c69a399
+
+Moving legend inside graph:
+https://claude.ai/share/8994d8d4-8280-4297-94b5-59c24762d908
+
+Understand why horizontal line wasn't showing:
+https://claude.ai/share/b65c0afd-ffdc-4e9f-8233-99f1e64e3092
+
+Position buttons in top right of the graph:
+https://claude.ai/share/de0da99e-6644-400f-a3d4-894a79110cd8
+
+Uploading dataset to GitHub releases:
+https://claude.ai/share/b4120beb-5e22-4930-b846-f08738c95d58
