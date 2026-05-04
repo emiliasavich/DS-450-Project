@@ -27,3 +27,9 @@ https://claude.ai/share/de0da99e-6644-400f-a3d4-894a79110cd8
 
 Uploading dataset to GitHub releases:
 https://claude.ai/share/b4120beb-5e22-4930-b846-f08738c95d58
+
+Fix GitHub push error:
+https://claude.ai/chat/5bc8cba8-fa59-4394-b7c7-b721dc3ec454
+
+Fix pipreqs issue:
+https://claude.ai/share/80855f67-8c85-4e04-bbfe-c8c14f47d275
