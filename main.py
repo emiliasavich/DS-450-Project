@@ -20,7 +20,7 @@ TOP_10_CUISINES = list(df["CUISINE DESCRIPTION"].value_counts().head(10).index)
 BOROUGHS = sorted(df["BORO"].dropna().unique())
 
 app = Dash(__name__)
-server = app.server 
+# server = app.server 
 
 # Pre-render visualizations
 nimra_viz = get_nimra_visualization(app, df)
