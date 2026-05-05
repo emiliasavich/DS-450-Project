@@ -20,7 +20,7 @@ TOP_10_CUISINES = list(df["CUISINE DESCRIPTION"].value_counts().head(10).index)
 BOROUGHS = sorted(df["BORO"].dropna().unique())
 
 app = Dash(__name__)
-# server = app.server 
+server = app.server 
 
 # Pre-render visualizations
 nimra_viz = get_nimra_visualization(app, df)
@@ -143,4 +143,4 @@ def show_clicked(story_btns, active_state):
             return show_half_viz, show_half_viz, show_half_viz, show_half_viz, {"display": "flex", "flexWrap": "wrap"}, ['', '', '', '', 'active'], ''
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
